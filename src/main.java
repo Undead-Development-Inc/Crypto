@@ -39,7 +39,8 @@ public class main {
         systest.test();
 
 
-
+        Net net = new Net();
+        net.main();
 
 
 

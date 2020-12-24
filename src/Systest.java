@@ -25,7 +25,7 @@ public class Systest {
 
 
 
-        for(int i = 0; i <= 100; i++){
+        for(int i = 0; i <= 50; i++){
             if(Blockchain.BlockChain.get(main.N_Block()).Transactions.size() != Settings.Max_Block_Transactions){
                 Random random = new Random();
                 Transaction transaction = new Transaction(StringUtil.applySha256(from.publicKey.toString()), StringUtil.applySha256(too.publicKey.toString()),1);
@@ -57,8 +57,7 @@ public class Systest {
         System.out.println("-------------------------------------------------------------------------------------");
         System.out.println("FROM----Wallet Balance: "+ from.Balance(from.publicKey.toString()));
         System.out.println("TOO----Wallet Balance: "+ too.Balance(too.publicKey.toString()));
-        Net net = new Net();
-        net.main();
+
 
     }
 
