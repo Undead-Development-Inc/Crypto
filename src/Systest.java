@@ -51,7 +51,7 @@ public class Systest {
         System.out.println("FROM----Wallet Balance: "+ from.Balance(from.publicKey.toString()));
         System.out.println("TOO----Wallet Balance: "+ too.Balance(too.publicKey.toString()));
 
-        too.Send(from.publicKey, 10);
+        too.Send(StringUtil.applySha256(from.publicKey.toString()), 0);
         System.out.println("MY WALLET---FROM: "+ StringUtil.applySha256(from.publicKey.toString()));
         System.out.println("MY WALLET---TOO: "+ StringUtil.applySha256(too.publicKey.toString()));
         System.out.println("-------------------------------------------------------------------------------------");

@@ -22,18 +22,23 @@ public class Wallet implements Serializable {
     }
 
 
-    public void Send(PublicKey Sendto , float sendvalue) throws ClassNotFoundException, SQLException, GeneralSecurityException, IOException {
+    public Boolean Send(String Sendto , float sendvalue) throws ClassNotFoundException, SQLException, GeneralSecurityException, IOException {
         Mysql_DB mysql_db = new Mysql_DB();
         Transaction transaction = new Transaction(StringUtil.applySha256(this.publicKey.toString()), StringUtil.applySha256(Sendto.toString()), sendvalue);
+        if(transaction.value == 0){
+            System.out.println("Transaction Value must not be 0!!!");
+            return false;
+        }
         if(Balance(StringUtil.applySha256(this.publicKey.toString())) >= transaction.value){
             Blockchain.BlockChain.get(main.N_Block()).Transactions.add(transaction);
             mysql_db.Transaction_update(transaction, Blockchain.BlockChain.get(main.N_Block()));
+            return true;
         }else {
             System.out.println("TRANSACTION VOIDED NOT ENOUGH FUNDS!!!");
         }
 
         transaction = null;
-        return;
+        return false;
     }
 
     public float Balance(String walletpublickey) {

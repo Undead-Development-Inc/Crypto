@@ -80,7 +80,7 @@ public class Net {
                 ss.close();
                 socket.close();
             }catch (Exception ex){
-                    System.out.println(ex);
+
             }
         }
 
