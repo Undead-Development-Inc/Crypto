@@ -64,7 +64,10 @@ public class Net {
                 if(msg.equals("WalletBalance")){
                     System.out.println("API CONNECTED WALLET:");
                     String Wkey = (String) objectInputStream.readObject();
+                    API_FUNCTIONS api_functions = new API_FUNCTIONS();
                     System.out.println(Wkey);
+                    System.out.println("BALANCE IS: "+ api_functions.Remote_CheckBalance(Wkey));
+                    objectOutputStream.writeObject(api_functions.Remote_CheckBalance(Wkey));
                     objectOutputStream.close();
                     objectInputStream.close();
                     ss.close();
