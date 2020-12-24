@@ -17,7 +17,7 @@ public class Transaction implements Serializable {
         this.from_address = from;
         this.Recpt_address = recpt;
         this.ISmined = false;
-        this.verified = 0;
+        this.verified = 1;
         this.value = value;
         Random random = new Random();
         this.transhash = StringUtil.applySha256(Blockchain.BlockChain.get(Blockchain.BlockChain.size() -1).blockHash + random.nextInt(9999999* 500));
