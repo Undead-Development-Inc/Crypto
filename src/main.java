@@ -38,7 +38,8 @@ public class main {
         Systest systest = new Systest();
         systest.test();
 
-
+        Blk_Update();
+        System.out.println(block.MR_HASHLIST);
         Net net = new Net();
         net.main();
 
@@ -64,6 +65,18 @@ public class main {
             return Blockchain.BlockChain.indexOf(block);
         }
         return lastBlockID;
+    }
+
+    public static void Blk_Update() throws SQLException, ClassNotFoundException {
+        for(Block block: Blockchain.BlockChain){
+            for(Transaction transaction: block.Transactions){
+                block.MR_HASHLIST.add(StringUtil.applySha256(transaction.transhash));
+                block.Merkleroot = StringUtil.applySha256(block.Merkleroot + transaction.transhash);
+                Mysql_DB mysql_db = new Mysql_DB();
+                mysql_db.Block_update(transaction, block);
+            }
+        }
+
     }
 
 

@@ -19,7 +19,7 @@ public class Mysql_DB {
 
         public void ADD_blocks(Block block) throws SQLException, ClassNotFoundException {
 
-            String sql = "INSERT INTO `block` (`BlockHash`,`PrevHash`, `BlockID`,`BlockReward`) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO `block` (`BlockHash`,`PrevHash`, `BlockID`,`BlockReward`, `MerkleRoot`, `Difficulty`) VALUES (?,?,?,?,?,?)";
 
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://"+ DB_Hst + ":" + DB_PORT + "/" + DB_DB, DB_USR, DB_PSWD);
@@ -29,6 +29,9 @@ public class Mysql_DB {
             preparedStatement.setString(2,block.PrevHash);
             preparedStatement.setInt(3, Blockchain.BlockChain.lastIndexOf(block));
             preparedStatement.setFloat(4, 0);
+            preparedStatement.setString(5, block.Merkleroot);
+            preparedStatement.setInt(6, block.diff);
+
 
             int rs1 = preparedStatement.executeUpdate();
             preparedStatement.close();
@@ -37,7 +40,7 @@ public class Mysql_DB {
     }
 
     public void Transaction_update(Transaction transaction, Block block) throws SQLException, ClassNotFoundException {
-        String sql = "INSERT INTO `Transactions` (`TransHash`,`BlockHash`, `Sender`, `Recpt`, `Value`, `BID`, `TV`, `M`) VALUES (?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO `Transactions` (`TransHash`,`BlockHash`, `Sender`, `Recpt`, `Value`, `BID`, `TV`, `M`, `Fees`) VALUES (?,?,?,?,?,?,?,?,?)";
 
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://"+ DB_Hst + ":" + DB_PORT + "/" + DB_DB, DB_USR, DB_PSWD);
@@ -52,12 +55,38 @@ public class Mysql_DB {
             preparedStatement.setInt(6, Blockchain.BlockChain.lastIndexOf(block));
             preparedStatement.setInt(7, transaction.verified);
             preparedStatement.setBoolean(8, transaction.ISmined);
+            preparedStatement.setFloat(9, transaction.Fees);
 
+
+
+            Block_update(transaction, block);
 
         int rs1 = preparedStatement.executeUpdate();
         preparedStatement.close();
 
         System.out.println("Updating Transaction DB!!!");
+        return;
+    }
+
+    public void Block_update(Transaction transaction, Block block) throws SQLException, ClassNotFoundException {
+        String sql = "UPDATE `block` SET `MerkleRoot` = ?";
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection("jdbc:mysql://"+ DB_Hst + ":" + DB_PORT + "/" + DB_DB, DB_USR, DB_PSWD);
+        PreparedStatement preparedStatement = con.prepareStatement(sql);
+
+        preparedStatement.setString(1, block.Merkleroot);
+
+
+
+        block.MR_HASHLIST.add(StringUtil.applySha256(transaction.transhash));
+        block.Merkleroot = StringUtil.applySha256(block.Merkleroot + transaction.transhash);
+
+
+        int rs1 = preparedStatement.executeUpdate();
+        preparedStatement.close();
+
+
         return;
     }
 
@@ -76,6 +105,8 @@ public class Mysql_DB {
             int blockid = rs1.getInt("BlockID");
             String BlockHash = rs1.getString("BlockHash");
             String PrevHash = rs1.getString("PrevHash");
+            String MerkleRoot = rs1.getString("MerkleRoot");
+            int difficulty = rs1.getInt("Difficulty");
             System.out.println("FOUND BLOCK: "+ blockid + " :With Hash: "+ BlockHash + " : Previous Hash : "+PrevHash);
             Block block = new Block(PrevHash);
             block.blockHash = BlockHash;
@@ -107,6 +138,7 @@ public class Mysql_DB {
             int BlockID = rs1.getInt("BID");
             int Verified = rs1.getInt("TV");
             Boolean mined = rs1.getBoolean("M");
+            Float Fees = rs1.getFloat("Fees");
 
             if(Blockchain.BlockChain.get(BlockID -1).blockHash.matches(BlockHash)){
                 System.out.println("Matches: " + Blockchain.BlockChain.get(BlockID -1).blockHash + " : DB: "+ BlockHash);

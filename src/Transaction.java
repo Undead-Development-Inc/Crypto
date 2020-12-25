@@ -1,6 +1,9 @@
+import org.bouncycastle.jcajce.provider.digest.SHA256;
+
 import javax.xml.crypto.Data;
 import java.io.Serializable;
 import java.security.PublicKey;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Transaction implements Serializable {
@@ -12,6 +15,8 @@ public class Transaction implements Serializable {
     public String transhash;
     public int verified;
     public Boolean ISmined;
+    public float Fees;
+
 
     public Transaction(String from, String recpt, float value){
         this.from_address = from;
