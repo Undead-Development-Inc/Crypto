@@ -6,7 +6,7 @@ import java.security.PublicKey;
 import java.sql.SQLException;
 import java.util.Random;
 
-public class main {
+public class FreeDomCrypto {
 
     public static void main(String[] args) throws Exception {
 

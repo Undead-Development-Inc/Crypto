@@ -26,10 +26,10 @@ public class Systest {
 
 
         for(int i = 0; i <= 50; i++){
-            if(Blockchain.BlockChain.get(main.N_Block()).Transactions.size() != Settings.Max_Block_Transactions){
+            if(Blockchain.BlockChain.get(FreeDomCrypto.N_Block()).Transactions.size() != Settings.Max_Block_Transactions){
                 Random random = new Random();
                 Transaction transaction = new Transaction(StringUtil.applySha256(from.publicKey.toString()), StringUtil.applySha256(too.publicKey.toString()),1);
-                Blockchain.BlockChain.get(main.N_Block()).Transactions.add(transaction);
+                Blockchain.BlockChain.get(FreeDomCrypto.N_Block()).Transactions.add(transaction);
 
             }
         }

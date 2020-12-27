@@ -15,30 +15,10 @@ public class Net {
 
     public void main(){
         System.out.println("Main thread");
-        new Thread(this::Block_Update).start();
         new Thread(this::API_Req).start();
 
     }
 
-    private void Block_Update() {
-        System.out.println("Starting Blockchain Network");
-        while (true) {
-            try {
-                ss = new ServerSocket(Settings.Net_port);
-                Socket socket = ss.accept();
-                System.out.println("CLIENT CONNECTED AT: " + ss.getInetAddress());
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-
-                for (Block block : Blockchain.BlockChain) {
-                    objectOutputStream.writeObject(block);
-                }
-
-                ss.close();
-            }catch (Exception ex){
-
-            }
-        }
-    }
 
     private void API_Req() {
         while (true){
@@ -87,6 +67,20 @@ public class Net {
                     API_FUNCTIONS api_functions = new API_FUNCTIONS();
                     System.out.println("Recived!!");
                     objectOutputStream.writeObject("Transaction Sent: "+ api_functions.Remote_Send(publicKey, privateKey, transaction));
+                    objectOutputStream.close();
+                    objectInputStream.close();
+                    ss.close();
+                    socket.close();
+                }
+
+                if(msg.equals("Monitor")){
+                    for(Block block: Blockchain.BlockChain){
+                        for(Transaction transaction: block.Transactions){
+                            objectOutputStream.writeObject("Transaction");
+                            objectOutputStream.flush();
+                            objectOutputStream.writeObject(transaction.transhash);
+                        }
+                    }
                     objectOutputStream.close();
                     objectInputStream.close();
                     ss.close();

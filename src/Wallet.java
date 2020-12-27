@@ -30,8 +30,8 @@ public class Wallet implements Serializable {
             return false;
         }
         if(Balance(StringUtil.applySha256(this.publicKey.toString())) >= transaction.value){
-            Blockchain.BlockChain.get(main.N_Block()).Transactions.add(transaction);
-            mysql_db.Transaction_update(transaction, Blockchain.BlockChain.get(main.N_Block()));
+            Blockchain.BlockChain.get(FreeDomCrypto.N_Block()).Transactions.add(transaction);
+            mysql_db.Transaction_update(transaction, Blockchain.BlockChain.get(FreeDomCrypto.N_Block()));
             System.out.println("Transaction Sent: "+ transaction.transhash);
             return true;
         }else {
