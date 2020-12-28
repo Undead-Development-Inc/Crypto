@@ -31,6 +31,7 @@ public class Mysql_DB {
             preparedStatement.setFloat(4, 0);
             preparedStatement.setString(5, block.Merkleroot);
             preparedStatement.setInt(6, block.diff);
+            
 
 
             int rs1 = preparedStatement.executeUpdate();

@@ -39,6 +39,8 @@ public class FreeDomCrypto {
         systest.test();
 
         Blk_Update();
+        Status status = new Status();
+        status.main();
         System.out.println(block.MR_HASHLIST);
         Net net = new Net();
         net.main();
