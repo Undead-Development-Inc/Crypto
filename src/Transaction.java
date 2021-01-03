@@ -3,6 +3,7 @@ import org.bouncycastle.jcajce.provider.digest.SHA256;
 import javax.xml.crypto.Data;
 import java.io.Serializable;
 import java.security.PublicKey;
+import java.security.Signature;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -16,6 +17,7 @@ public class Transaction implements Serializable {
     public int verified;
     public Boolean ISmined;
     public float Fees;
+    public java.security.Signature Signature;
 
 
     public Transaction(String from, String recpt, float value){
@@ -26,5 +28,6 @@ public class Transaction implements Serializable {
         this.value = value;
         Random random = new Random();
         this.transhash = StringUtil.applySha256(Blockchain.BlockChain.get(Blockchain.BlockChain.size() -1).blockHash + random.nextInt(9999999* 500));
+
     }
 }

@@ -25,7 +25,7 @@ public class Systest {
 
 
 
-        for(int i = 0; i <= 50; i++){
+        for(int i = 0; i <= 20; i++){
             if(Blockchain.BlockChain.get(FreeDomCrypto.N_Block()).Transactions.size() != Settings.Max_Block_Transactions){
                 Random random = new Random();
                 Transaction transaction = new Transaction(StringUtil.applySha256(from.publicKey.toString()), StringUtil.applySha256(too.publicKey.toString()),1);

@@ -16,20 +16,20 @@ public class Status {
         while (true){
             try {
 
-                for(Block block: Blockchain.BlockChain){
-                    for(Transaction transaction: block.Transactions){
-                        int times = 0;
-                        if(times <= 6){
-                            System.out.println(Settings.RED + "Transaction Hash" + " \t \t" + Settings.GREEN + "\t \t " + " \t \t \t Block Hash");
-                            System.out.println(Settings.BLUE + transaction.transhash + " \t \t" + Settings.PURPLE + "\t \t " + block.blockHash);
-                            times =+ 1;
-                        }else {
-                            times = 0;
-                            System.out.println("\f");
-                            System.out.println(Settings.BLUE + transaction.transhash + " \t \t" + Settings.PURPLE + "\t \t " + block.blockHash);
-                        }
-                    }
-                }
+//                for(Block block: Blockchain.BlockChain){
+//                    for(Transaction transaction: block.Transactions){
+//                        int times = 0;
+//                        if(times <= 6){
+//                            System.out.println(Settings.RED + "Transaction Hash" + " \t \t" + Settings.GREEN + "\t \t " + " \t \t \t Block Hash");
+//                            System.out.println(Settings.BLUE + transaction.transhash + " \t \t" + Settings.PURPLE + "\t \t " + block.blockHash);
+//                            times =+ 1;
+//                        }else {
+//                            times = 0;
+//                            System.out.println("\f");
+//                            System.out.println(Settings.BLUE + transaction.transhash + " \t \t" + Settings.PURPLE + "\t \t " + block.blockHash);
+//                        }
+//                    }
+//                }
             }catch (Exception ex){
 
             }

@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Scanner;
@@ -21,6 +22,7 @@ public class Net {
 
 
     private void API_Req() {
+
         while (true){
 
             try {
@@ -85,6 +87,30 @@ public class Net {
                     objectInputStream.close();
                     ss.close();
                     socket.close();
+                }
+
+                if(msg.equals("Mine")){
+                    Wallet wallet = new Wallet();
+                    Mine_Transactions mine_transactions = new Mine_Transactions();
+                    Boolean isFound = false;
+                    String Key = (String) objectInputStream.readObject();
+                    objectOutputStream.writeObject(StringUtil.applySha256(wallet.publicKey.toString()));
+                    objectOutputStream.flush();
+                    objectOutputStream.writeObject(1);
+                    objectOutputStream.flush();
+                    while (!isFound){
+                        if(objectInputStream.readObject().equals(mine_transactions.New_M_Transaction(StringUtil.applySha256(wallet.publicKey.toString()), Key))){
+                            objectOutputStream.writeObject(true);
+                            System.out.println("FOUND TRANSACTION");
+                            isFound = true;
+                        }
+                        objectOutputStream.writeObject(false);
+                    }
+                    objectOutputStream.close();
+                    objectInputStream.close();
+                    ss.close();
+                    socket.close();
+
                 }
 
 

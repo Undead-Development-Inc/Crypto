@@ -19,7 +19,7 @@ public class Mysql_DB {
 
         public void ADD_blocks(Block block) throws SQLException, ClassNotFoundException {
 
-            String sql = "INSERT INTO `block` (`BlockHash`,`PrevHash`, `BlockID`,`BlockReward`, `MerkleRoot`, `Difficulty`) VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT INTO `block` (`BlockHash`,`PrevHash`, `BlockID`,`BlockReward`, `MerkleRoot`, `Difficulty`,`timestamp`) VALUES (?,?,?,?,?,?,?)";
 
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://"+ DB_Hst + ":" + DB_PORT + "/" + DB_DB, DB_USR, DB_PSWD);
@@ -31,6 +31,7 @@ public class Mysql_DB {
             preparedStatement.setFloat(4, 0);
             preparedStatement.setString(5, block.Merkleroot);
             preparedStatement.setInt(6, block.diff);
+            preparedStatement.setString(7, block.timestamp);
             
 
 
@@ -41,7 +42,7 @@ public class Mysql_DB {
     }
 
     public void Transaction_update(Transaction transaction, Block block) throws SQLException, ClassNotFoundException {
-        String sql = "INSERT INTO `Transactions` (`TransHash`,`BlockHash`, `Sender`, `Recpt`, `Value`, `BID`, `TV`, `M`, `Fees`) VALUES (?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO `Transactions` (`TransHash`,`BlockHash`, `Sender`, `Recpt`, `Value`, `BID`, `TV`, `M`, `Fees`, `Signature`) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://"+ DB_Hst + ":" + DB_PORT + "/" + DB_DB, DB_USR, DB_PSWD);
@@ -57,6 +58,7 @@ public class Mysql_DB {
             preparedStatement.setInt(7, transaction.verified);
             preparedStatement.setBoolean(8, transaction.ISmined);
             preparedStatement.setFloat(9, transaction.Fees);
+            preparedStatement.setObject(10, transaction.Signature);
 
 
 
