@@ -1,3 +1,4 @@
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 import jdk.jfr.ContentType;
 
 import java.io.IOException;
@@ -18,27 +19,28 @@ public class Mysql_DB {
         public String DB_DB = "root";
 
         public void ADD_blocks(Block block) throws SQLException, ClassNotFoundException {
+            try {
+                String sql = "INSERT INTO `block` (`BlockHash`,`PrevHash`, `BlockID`,`BlockReward`, `MerkleRoot`, `Difficulty`,`timestamp`) VALUES (?,?,?,?,?,?,?)";
 
-            String sql = "INSERT INTO `block` (`BlockHash`,`PrevHash`, `BlockID`,`BlockReward`, `MerkleRoot`, `Difficulty`,`timestamp`) VALUES (?,?,?,?,?,?,?)";
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://" + DB_Hst + ":" + DB_PORT + "/" + DB_DB, DB_USR, DB_PSWD);
+                PreparedStatement preparedStatement = con.prepareStatement(sql);
 
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://"+ DB_Hst + ":" + DB_PORT + "/" + DB_DB, DB_USR, DB_PSWD);
-            PreparedStatement preparedStatement = con.prepareStatement(sql);
-
-            preparedStatement.setString(1, block.blockHash);
-            preparedStatement.setString(2,block.PrevHash);
-            preparedStatement.setInt(3, Blockchain.BlockChain.lastIndexOf(block));
-            preparedStatement.setFloat(4, 0);
-            preparedStatement.setString(5, block.Merkleroot);
-            preparedStatement.setInt(6, block.diff);
-            preparedStatement.setString(7, block.timestamp);
-            
+                preparedStatement.setString(1, block.blockHash);
+                preparedStatement.setString(2, block.PrevHash);
+                preparedStatement.setInt(3, Blockchain.BlockChain.lastIndexOf(block));
+                preparedStatement.setFloat(4, 0);
+                preparedStatement.setString(5, block.Merkleroot);
+                preparedStatement.setInt(6, block.diff);
+                preparedStatement.setString(7, block.timestamp);
 
 
-            int rs1 = preparedStatement.executeUpdate();
-            preparedStatement.close();
-            System.out.println("Adding Blocks to DB!!!");
-
+                int rs1 = preparedStatement.executeUpdate();
+                preparedStatement.close();
+                System.out.println("Adding Blocks to DB!!!");
+            }catch (Exception ex){
+                System.out.println("ERROR POSSIBLE NO-CONNECTION");
+            }
     }
 
     public void Transaction_update(Transaction transaction, Block block) throws SQLException, ClassNotFoundException {
