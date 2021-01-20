@@ -66,9 +66,10 @@ public class Block implements Serializable{
         String prefixString = new String(new char[prefix]).replace('\0', '0');
         while (!this.blockHash.substring(0, prefix).equals(prefixString)) {
             nonce++;
+            System.out.println(Settings.RED_BOLD + Settings.BLACK_BACKGROUND +"Trying: "+ this.blockHash);
             this.blockHash = calculateBlockHash();
         }
-
+        System.out.println(Settings.GREEN_BOLD + Settings.BLACK_BACKGROUND +"FOUND: "+ this.blockHash);
         return this.blockHash;
     }
     public String getPreviousHash() {

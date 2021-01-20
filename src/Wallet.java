@@ -24,7 +24,7 @@ public class Wallet implements Serializable {
 
     public Boolean Send(String Sendto , float sendvalue, PrivateKey mykey, String BlockHash) throws ClassNotFoundException, SQLException, GeneralSecurityException, IOException {
         Mysql_DB mysql_db = new Mysql_DB();
-        Transaction transaction = new Transaction(this.publicKey, StringUtil.applySha256(Sendto), sendvalue, mykey, BlockHash);
+        Transaction transaction = new Transaction(this.publicKey, StringUtil.applySha256(Sendto), sendvalue, mykey);
         transaction.Signature = StringUtil.applyECDSASig(mykey, transaction.toString());
         System.out.println("My Private Key: "+ mykey);
         System.out.println("Transaction Signature: "+ transaction.Signature);

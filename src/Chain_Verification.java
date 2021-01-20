@@ -20,6 +20,9 @@ public class Chain_Verification {
 
             Block newBlock = new Block(block.get_DATA(), block
                     .getBlockHash(), new Date().getTime());
+            for(Transaction transaction : block.get_DATA()){
+                transaction.BlockHash = block.getBlockHash();
+            }
             newBlock.mineBlock(Diff);
             System.out.println("Hashing");
             assertTrue(newBlock.getBlockHash()
@@ -27,7 +30,7 @@ public class Chain_Verification {
                     .equals(prefixString));
 
             Blockchain.BlockChain.add(newBlock);
-            System.out.println("BLOCK: " + Blockchain.BlockChain.indexOf(block) + " Previous Hash: " + block.getPreviousHash());
+            System.out.println("BLOCK: " + Blockchain.BlockChain.lastIndexOf(block) + " Previous Hash: " + block.getPreviousHash());
 
             return;
         }catch (Exception ex){

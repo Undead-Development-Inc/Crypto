@@ -7,8 +7,7 @@ public class Difficulty {
 
         if(Blockchain.BlockChain.get(Blockid_Curr).diff <= 10){
 //            return Blockchain.BlockChain.get(Blockid_Curr).diff =+ 1;
-            System.out.println("Difficulty: "+ 4);
-            return 4;
+            return 2;
 
         }else {
             return Blockchain.BlockChain.get(Blockid_Curr).diff =- 1;

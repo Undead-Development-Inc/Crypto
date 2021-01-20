@@ -27,7 +27,7 @@ public class Transaction implements Serializable {
     public static ArrayList<Transaction> inputs = new ArrayList<>();
 
 
-    public Transaction(PublicKey from, String recpt, float value, PrivateKey fromkey, String BlockHash){
+    public Transaction(PublicKey from, String recpt, float value, PrivateKey fromkey){
         this.from_address = from;
         this.Recpt_address = recpt;
         this.ISmined = false;
@@ -35,7 +35,7 @@ public class Transaction implements Serializable {
         this.value = value;
         Random random = new Random();
         this.transhash = StringUtil.applySha256(from + recpt + value + BlockHash);
-        this.BlockHash = BlockHash;
+        this.BlockHash = "";
         GET_UTXO(from);
 
 
