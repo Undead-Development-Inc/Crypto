@@ -22,16 +22,19 @@ public class Wallet implements Serializable {
     }
 
 
-    public Boolean Send(String Sendto , float sendvalue) throws ClassNotFoundException, SQLException, GeneralSecurityException, IOException {
+    public Boolean Send(String Sendto , float sendvalue, PrivateKey mykey, String BlockHash) throws ClassNotFoundException, SQLException, GeneralSecurityException, IOException {
         Mysql_DB mysql_db = new Mysql_DB();
-        Transaction transaction = new Transaction(StringUtil.applySha256(this.publicKey.toString()), StringUtil.applySha256(Sendto.toString()), sendvalue);
+        Transaction transaction = new Transaction(this.publicKey, StringUtil.applySha256(Sendto), sendvalue, mykey, BlockHash);
+        transaction.Signature = StringUtil.applyECDSASig(mykey, transaction.toString());
+        System.out.println("My Private Key: "+ mykey);
+        System.out.println("Transaction Signature: "+ transaction.Signature);
         if(transaction.value == 0){
             System.out.println("Transaction Value must not be 0!!!");
             return false;
         }
         if(Balance(StringUtil.applySha256(this.publicKey.toString())) >= transaction.value){
-            Blockchain.BlockChain.get(FreeDomCrypto.N_Block()).Transactions.add(transaction);
-            mysql_db.Transaction_update(transaction, Blockchain.BlockChain.get(FreeDomCrypto.N_Block()));
+            Blockchain.Mine_Transactions.add(transaction);
+//            mysql_db.Transaction_update();
             System.out.println("Transaction Sent: "+ transaction.transhash);
             return true;
         }else {
@@ -45,19 +48,19 @@ public class Wallet implements Serializable {
     public float Balance(String walletpublickey) {
         float bal = 0;
         for (Block block : Blockchain.BlockChain) {
-            for (Transaction transaction : block.Transactions) {
+            for (Transaction transaction : block.transaction_pool.transactions) {
                 UTXO.add(transaction);
 //                System.out.println("UTXO SIZE: " + this.UTXO.size());
             }
         }
 
         for (Transaction transaction : UTXO) {
-            if (transaction.from_address.matches(StringUtil.applySha256(this.publicKey.toString())) & transaction.verified == 1) {
+            if (transaction.from_address == this.publicKey & transaction.verified == 1) {
                 if (transaction.value <= 0.000001) {
                     bal = 0;
                 }
 
-                if(transaction.from_address.matches(StringUtil.applySha256(this.publicKey.toString())) & transaction.verified == 1){
+                if(transaction.from_address == this.publicKey){
                     if(transaction.value >= bal){
 
                     }else {
@@ -73,7 +76,7 @@ public class Wallet implements Serializable {
 
         }
         for(Block block : Blockchain.BlockChain){
-            UTXO.removeAll(block.Transactions);
+            UTXO.removeAll(block.transaction_pool.transactions);
         }
         return bal;
     }
@@ -92,7 +95,7 @@ public class Wallet implements Serializable {
             // Set the public and private keys from the keyPair
 
             publicKey = keyPair.getPublic();
-            publicKey = keyPair.getPublic();
+            privateKey = keyPair.getPrivate();
 
         } catch (Exception e) {
             throw new RuntimeException(e);

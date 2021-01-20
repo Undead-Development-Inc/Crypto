@@ -1,9 +1,12 @@
 import org.bouncycastle.pqc.jcajce.provider.Rainbow;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.PublicKey;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 public class FreeDomCrypto {
@@ -17,8 +20,8 @@ public class FreeDomCrypto {
         Mysql_DB mysql_db = new Mysql_DB();
         Validation validation = new Validation();
 
-        mysql_db.CLR_DB_BLOCK();
-        mysql_db.CLR_DB_TRANS();
+//        mysql_db.CLR_DB_BLOCK();
+//        mysql_db.CLR_DB_TRANS();
         /////////////////////////////////////////////////////////////////adds blocks and transactions
         Wallet from = new Wallet();
         Wallet too = new Wallet();
@@ -26,60 +29,39 @@ public class FreeDomCrypto {
         too = new Wallet();
 
 
+        ArrayList<Transaction> transactions = new ArrayList<>();
 
         /////////////////////////////G-BLOCK/////////////////
-        Block block = new Block(Settings.G_Block_Hash);
+        Block block = new Block(transactions, Settings.G_Block_Hash, new Date().getTime());
+        block.mineBlock(1);
         Blockchain.BlockChain.add(block);
-        mysql_db.ADD_blocks(block);
+        System.out.println(Settings.RED_BOLD + Blockchain.BlockChain.size());
+        //mysql_db.ADD_blocks(1);
 
-
-
-
-        Systest systest = new Systest();
-        systest.test();
-
-        Blk_Update();
-        Status status = new Status();
-        status.main();
-        System.out.println(block.MR_HASHLIST);
-        Net net = new Net();
-        net.main();
-
-
-
-    }
-
-    public static int N_Block() throws SQLException, ClassNotFoundException, GeneralSecurityException, IOException {
-
-        Mysql_DB mysql_db = new Mysql_DB();
-
-        int lastBlockID = Blockchain.BlockChain.lastIndexOf(Blockchain.BlockChain.get(Blockchain.BlockChain.size() -1));
-        int Max_Trans = Settings.Max_Block_Transactions;
-
-        if(Blockchain.BlockChain.get(lastBlockID).Transactions.size() == Max_Trans){
-            Block block = new Block(Blockchain.BlockChain.get(lastBlockID).blockHash);
-            Blockchain.BlockChain.add(block);
-            mysql_db.ADD_blocks(block);
-
-            if(mysql_db.FIND_Block(block)){
-                System.out.println("Added New Block!!!");
-            }
-            return Blockchain.BlockChain.indexOf(block);
-        }
-        return lastBlockID;
-    }
-
-    public static void Blk_Update() throws SQLException, ClassNotFoundException {
-        for(Block block: Blockchain.BlockChain){
-            for(Transaction transaction: block.Transactions){
-                block.MR_HASHLIST.add(StringUtil.applySha256(transaction.transhash));
-                block.Merkleroot = StringUtil.applySha256(block.Merkleroot + transaction.transhash);
-                Mysql_DB mysql_db = new Mysql_DB();
-                mysql_db.Block_update(transaction, block);
-            }
+        Transaction transaction = new Transaction(from.publicKey, too.publicKey.toString(), 100, from.privateKey, block.getBlockHash());
+        block.transaction_pool.transactions.add(transaction);
+        System.out.println("Transaction Hash: "+ transaction.transhash);
+        transaction.Signature = StringUtil.applyECDSASig(from.privateKey, transaction.toString());
+        new Validation().Check_Trans_Sig(transaction);
+        for(int i =0; i<= 5; i++){
+            Block block1 = new Block(Blockchain.Mine_Transactions, Blockchain.BlockChain.get(Blockchain.BlockChain.size() -1).getBlockHash(), new Date().getTime());
+            block1.mineBlock(new Difficulty().difficulty());
+            new Chain_Verification().givenBlockchain_whenNewBlockAdded_thenSuccess(block1);
+            System.out.println(block1);
         }
 
+
+
+
     }
+
+
+
+
+
 
 
 }
+
+
+

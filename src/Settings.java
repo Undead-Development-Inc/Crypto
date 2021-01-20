@@ -5,6 +5,7 @@ public class Settings {
     public static int INET_Trans_Port = 65534;
     public static int Net_port = 65535;
     public static int API_NET_PORT = 65533;
+    public static int DB_STORAGE_NET = 3332;
 
 
 

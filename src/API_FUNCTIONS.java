@@ -19,25 +19,5 @@ public class API_FUNCTIONS {
         return Bal;
     }
 
-    public Boolean Remote_Send(PublicKey myPub, PrivateKey myPriv, Transaction transaction) {
-        try {
-            Wallet wallet = new Wallet();
-            wallet = new Wallet();
-            wallet.publicKey = myPub;
-            wallet.privateKey = myPriv;
 
-            if (wallet.Send(StringUtil.applySha256(transaction.Recpt_address.toString()), transaction.value)) {
-                System.out.println("SENDER: "+ StringUtil.applySha256(transaction.from_address.toString()));
-                System.out.println("Transaction Sent: "+ transaction.transhash);
-                return true;
-            }else {
-                System.out.println("Sender: "+ StringUtil.applySha256(transaction.from_address));
-                System.out.println("Transaction Failed!!");
-                return false;
-            }
-        }catch (Exception ex){
-
-        }
-        return false;
-    }
 }
