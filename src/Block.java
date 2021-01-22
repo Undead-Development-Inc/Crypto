@@ -1,5 +1,6 @@
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.io.Serializable;
 import java.util.Date;
@@ -22,17 +23,20 @@ public class Block implements Serializable{
     public String Merkleroot = ""; //Final Hash of ALL Transactions in Block
     public ArrayList<String> MR_HASHLIST = new ArrayList<>(); //List of All Transaction Hashes in Block
     public long timeStamp;
-    public float BlockReward; //Total block reward
+    public float BlockReward = new Block_Reward().Block_Rew(); //Total block reward
     public int diff = 1;
+    public PublicKey miner;
+    public Wallet Block_Wallet = new Wallet();
 
-    public Block(ArrayList<Transaction> data, String previousHash, long timeStamp) throws NullPointerException{
+
+    public Block(ArrayList<Transaction> data, String previousHash, long timeStamp, PublicKey miner) throws NullPointerException{
 
         this.Merkleroot = Calculate_MerkleRoot();
         this.timeStamp = timeStamp;
         this.data = data;
         this.blockHash = calculateBlockHash();
         this.PrevHash = previousHash;
-
+        this.miner = miner;
 
 
     }
@@ -70,6 +74,7 @@ public class Block implements Serializable{
             this.blockHash = calculateBlockHash();
         }
         System.out.println(Settings.GREEN_BOLD + Settings.BLACK_BACKGROUND +"FOUND: "+ this.blockHash);
+        Block_Reward_transaction();
         return this.blockHash;
     }
     public String getPreviousHash() {
@@ -78,10 +83,19 @@ public class Block implements Serializable{
     public String getBlockHash(){
         return this.blockHash;
     }
+    private void Block_Reward_transaction(){
+        Block_Wallet = new Wallet();
+        Transaction transaction = new Transaction(Block_Wallet, this.miner.toString(), new Block_Reward().Block_Rew(), Block_Wallet.privateKey);
+        transaction.verified =1;
+        transaction.Signature = StringUtil.applyECDSASig(Block_Wallet.privateKey, transaction.toString());
+        this.transaction_pool.transactions.add(transaction);
+
+        return;
+    }
     public void setData(ArrayList<Transaction> data) {
         this.data = data;
     }
-    public void setBlock(String hash, String PrevHash, String Merkleroot, int Difficulty, int Nonce, long timestamp, ArrayList<Transaction> Data){
+    public void setBlock(String hash, String PrevHash, String Merkleroot, int Difficulty, int Nonce, long timestamp, ArrayList<Transaction> Data, PublicKey miner){
         this.blockHash = hash;
         this.PrevHash = PrevHash;
         this.Merkleroot = Merkleroot;
@@ -89,6 +103,7 @@ public class Block implements Serializable{
         this.nonce = Nonce;
         this.timeStamp = timestamp;
         this.data = Data;
+        this.miner = miner;
         return;
     }
 

@@ -19,7 +19,7 @@ public class Chain_Verification {
         try {
 
             Block newBlock = new Block(block.get_DATA(), block
-                    .getBlockHash(), new Date().getTime());
+                    .getBlockHash(), new Date().getTime(), block.miner);
             for(Transaction transaction : block.get_DATA()){
                 transaction.BlockHash = block.getBlockHash();
             }
@@ -43,20 +43,15 @@ public class Chain_Verification {
         try {
             boolean flag = true;
             for (int i = 0; i < Blockchain.BlockChain.size(); i++) {
-                String previousHash = i == 0 ? "0"
-                        : Blockchain.BlockChain.get(i - 1)
-                        .getBlockHash();
-                flag = Blockchain.BlockChain.get(i)
-                        .getBlockHash()
-                        .equals(Blockchain.BlockChain.get(i)
-                                .calculateBlockHash())
-                        && previousHash.equals(Blockchain.BlockChain.get(i)
-                        .getPreviousHash())
-                        && Blockchain.BlockChain.get(i)
-                        .getBlockHash()
-                        .substring(0, Diff)
-                        .equals(prefixString);
+                flag = Blockchain.BlockChain.get(i).getBlockHash().matches(Blockchain.BlockChain.get(i).calculateBlockHash());
+                flag = Blockchain.BlockChain.get(i).getPreviousHash().matches(Blockchain.BlockChain.get(i -1).calculateBlockHash());
+                flag= Blockchain.BlockChain.get(i).Calculate_MerkleRoot().matches(Blockchain.BlockChain.get(i).Merkleroot);
+                flag = Blockchain.BlockChain.get(i).date.getTime() != Blockchain.BlockChain.get(i -1).timeStamp;
+
+
                 if (!flag)
+                    System.out.println("Removing Block: "+ Blockchain.BlockChain.get(i));
+                    Blockchain.BlockChain.remove(i);
                     break;
             }
             assertTrue(flag);

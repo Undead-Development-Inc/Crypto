@@ -32,29 +32,16 @@ public class FreeDomCrypto {
         ArrayList<Transaction> transactions = new ArrayList<>();
 
         /////////////////////////////G-BLOCK/////////////////
-        Block block = new Block(transactions, Settings.G_Block_Hash, new Date().getTime());
-        block.setBlock("0G5a82de318005ce12a243c2e4791a3cd1f80e549372241bad81c46d75041a03", "", "", 1, 1, new Date().getTime(), null);
+        Block block = new Block(transactions, Settings.G_Block_Hash, new Date().getTime(), from.publicKey);
+
         //block.mineBlock(1);
         Blockchain.BlockChain.add(block);
         System.out.println(Settings.RED_BOLD + Blockchain.BlockChain.size());
-        //mysql_db.ADD_blocks(1);
 
-        Transaction transaction = new Transaction(from.publicKey, too.publicKey.toString(), 100, from.privateKey);
-        block.transaction_pool.transactions.add(transaction);
-        System.out.println("Transaction Hash: "+ transaction.transhash);
-        transaction.Signature = StringUtil.applyECDSASig(from.privateKey, transaction.toString());
-        new Validation().Check_Trans_Sig(transaction);
-        for(int i =0; i>= 40; i++){
-            Transaction transaction1 = new Transaction(from.publicKey, too.publicKey.toString(), 100, from.privateKey);
-            Blockchain.Mine_Transactions.add(transaction1);
-        }
-        for(int i =0; i<= 0; i++){
-            Block block1 = new Block(Blockchain.Mine_Transactions, Blockchain.BlockChain.get(Blockchain.BlockChain.size() -1).getBlockHash(), new Date().getTime());
-            new Chain_Verification().givenBlockchain_whenNewBlockAdded_thenSuccess(block1);
-            System.out.println(block1);
+        new functions().Mine_Block(from);
 
-        }
-
+        System.out.println(StringUtil.applySha256(from.publicKey.toString()));
+        System.out.println("My Wallet Balance: "+ from.Balance(StringUtil.applySha256(from.publicKey.toString())));
 
 
 

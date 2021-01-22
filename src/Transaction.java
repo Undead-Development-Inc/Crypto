@@ -1,12 +1,6 @@
-import org.bouncycastle.jcajce.provider.asymmetric.dh.BCDHPublicKey;
-import org.bouncycastle.jcajce.provider.digest.SHA256;
-import org.bouncycastle.jce.interfaces.ECPublicKey;
-
-import javax.xml.crypto.Data;
 import java.io.Serializable;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.Signature;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -15,6 +9,7 @@ public class Transaction implements Serializable {
 
     public PublicKey from_address;
     public String Recpt_address;
+    public Identifier identifier;
     public float value;
     public String transhash;
     public int verified;
@@ -27,8 +22,8 @@ public class Transaction implements Serializable {
     public static ArrayList<Transaction> inputs = new ArrayList<>();
 
 
-    public Transaction(PublicKey from, String recpt, float value, PrivateKey fromkey){
-        this.from_address = from;
+    public Transaction(Wallet from, String recpt, float value, PrivateKey fromkey){
+        this.from_address = from.publicKey;
         this.Recpt_address = recpt;
         this.ISmined = false;
         this.verified = 1;
@@ -36,13 +31,20 @@ public class Transaction implements Serializable {
         Random random = new Random();
         this.transhash = StringUtil.applySha256(from + recpt + value + BlockHash);
         this.BlockHash = "";
-        GET_UTXO(from);
+        GET_UTXO(from.publicKey);
+        this.identifier = new Identifier("Send", this, fromkey);
+        set_identifier();
+
+        //this.RECPT = StringUtil.applySha256(from.toString());
 
 
 
     }
 
+    public void set_identifier(){
+    return;
 
+    }
     public void GET_UTXO(PublicKey key){
         ArrayList<Transaction> Spent_Transactions = new ArrayList<>();
         ArrayList<Transaction> Recived_Transactions = new ArrayList<>();
