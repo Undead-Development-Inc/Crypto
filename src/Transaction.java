@@ -30,6 +30,8 @@ public class Transaction implements Serializable {
         Random random = new Random();
         this.transhash = StringUtil.applySha256(from + recpt + value + BlockHash);
         this.BlockHash = "";
+        this.inputs = from.UTXO(from);
+        System.out.println(this.inputs);
 
 
 

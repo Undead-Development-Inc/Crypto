@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class Wallet implements Serializable {
 
-    public ArrayList<Transaction> UTXO = new ArrayList<>();
 
     public PrivateKey privateKey;
     public PublicKey publicKey;
@@ -54,6 +53,7 @@ public class Wallet implements Serializable {
     public Boolean Send_Funds(Wallet wallet, String too, Float value){
         if(wallet.Balance(wallet) != 0 & wallet.Balance(wallet) >= value){
             Transaction transaction = new Transaction(wallet, too, value, wallet.privateKey);
+
             transaction.Signature = StringUtil.applyECDSASig(wallet.privateKey, transaction.toString());
             Blockchain.Mine_Transactions.add(transaction);
             if(Blockchain.Mine_Transactions.contains(transaction)){
@@ -67,7 +67,36 @@ public class Wallet implements Serializable {
         return false;
     }
 
+    public ArrayList<Transaction> UTXO(Wallet wallet){
+        ArrayList<Transaction> Sent_Transactions = new ArrayList<>();
+        ArrayList<Transaction> Recpt_Transactions = new ArrayList<>();
+        ArrayList<Transaction> UTXO_TEMP = new ArrayList<>();
 
+        for(Block block : Blockchain.BlockChain){
+            for(Transaction transaction: block.transactions){
+                if(transaction.Recpt_address.matches(StringUtil.applySha256(wallet.publicKey.toString()))){
+                    Recpt_Transactions.add(transaction);
+                }
+                if(StringUtil.verifyECDSASig(wallet.publicKey, transaction.toString(), transaction.Signature)){
+                    Sent_Transactions.add(transaction);
+                }
+                System.out.println("Transaction: "+ transaction);
+            }
+
+        }
+
+        for(Transaction transaction: Recpt_Transactions){
+            UTXO_TEMP.add(transaction);
+        }
+        for(Transaction transaction: Sent_Transactions){
+            for(Transaction transaction1: transaction.transaction_outputs){
+                if(transaction1.value <= transaction.value){
+                    UTXO_TEMP.add(transaction);
+                }
+            }
+        }
+        return UTXO_TEMP;
+    }
     public void generateKeyPair() {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
