@@ -14,6 +14,10 @@ public class Blockchain implements Serializable {
     ////////////This is The array of transactions I got to put in new Block(Temporary Storage)
     public static ArrayList<Transaction> Mine_Transactions = new ArrayList<>();
 
+    public static ArrayList<Block> temp_blocks = new ArrayList<>();//for providing clients
+
+    public static ArrayList<Block> MBlocks_NV = new ArrayList<>(); //THIS IS BLOCKS THAT WERE MINED BUT NOT YET VERIFIED!!
+
 
 
 
