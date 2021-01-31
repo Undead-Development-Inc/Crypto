@@ -46,8 +46,6 @@ public class Chain_Verification {
                 flag = Blockchain.BlockChain.get(i).getBlockHash().matches(Blockchain.BlockChain.get(i).calculateBlockHash());
                 flag = Blockchain.BlockChain.get(i).getPreviousHash().matches(Blockchain.BlockChain.get(i -1).calculateBlockHash());
                 flag= Blockchain.BlockChain.get(i).Calculate_MerkleRoot().matches(Blockchain.BlockChain.get(i).Merkleroot);
-                flag = Blockchain.BlockChain.get(i).date.getTime() != Blockchain.BlockChain.get(i -1).timeStamp;
-
 
                 if (!flag)
                     System.out.println("Removing Block: "+ Blockchain.BlockChain.get(i));

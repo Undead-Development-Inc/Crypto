@@ -38,6 +38,9 @@ public class ErrorMgr {
         if(error == 11){
             throw new Exception("BlockChain is Empty");
         }
+        if(error == 12){
+            throw new Exception("G-BLOCK NOT ADDED ERROR!!!!");
+        }
 
     }
 }

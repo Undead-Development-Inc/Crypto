@@ -10,16 +10,14 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class Block implements Serializable{
     /////////TRANSACTIONS IN BLOCK//////////////
 
-    Date date= new Date();
-    long time = date.getTime();
+
     //Timestamp ts = new Timestamp(time);
     ///////////////////////////
     /////THIS IS BLOCK!!!
     private String PrevHash;
     private String blockHash = "";
-    public Transaction_Pool transaction_pool;
     private int nonce;
-    private ArrayList<Transaction> data;
+    public ArrayList<Transaction> transactions;
     public String Merkleroot = ""; //Final Hash of ALL Transactions in Block
     public ArrayList<String> MR_HASHLIST = new ArrayList<>(); //List of All Transaction Hashes in Block
     public long timeStamp;
@@ -29,11 +27,11 @@ public class Block implements Serializable{
     public Wallet Block_Wallet = new Wallet();
 
 
-    public Block(ArrayList<Transaction> data, String previousHash, long timeStamp, PublicKey miner) throws NullPointerException{
+    public Block(ArrayList<Transaction> transactions, String previousHash, long timeStamp, PublicKey miner) throws NullPointerException{
 
         this.Merkleroot = Calculate_MerkleRoot();
         this.timeStamp = timeStamp;
-        this.data = data;
+        this.transactions = transactions;
         this.blockHash = calculateBlockHash();
         this.PrevHash = previousHash;
         this.miner = miner;
@@ -42,7 +40,10 @@ public class Block implements Serializable{
     }
     public String Calculate_MerkleRoot(){
         String MR = "";
-        MR = StringUtil.applySha256(this.transaction_pool.transactions.toString());
+        if(this.transactions == null){
+            return "";
+        }
+        MR = StringUtil.applySha256(this.transactions.toString());
         return MR;
     }
 
@@ -50,7 +51,7 @@ public class Block implements Serializable{
         String dataToHash = this.PrevHash
                 + Long.toString(timeStamp)
                 + Integer.toString(nonce)
-                + data;
+                + transactions;
         MessageDigest digest = null;
         byte[] bytes = null;
         try {
@@ -74,7 +75,7 @@ public class Block implements Serializable{
             this.blockHash = calculateBlockHash();
         }
         System.out.println(Settings.GREEN_BOLD + Settings.BLACK_BACKGROUND +"FOUND: "+ this.blockHash);
-        Block_Reward_transaction();
+        this.Block_Reward_transaction();
         return this.blockHash;
     }
     public String getPreviousHash() {
@@ -85,16 +86,14 @@ public class Block implements Serializable{
     }
     private void Block_Reward_transaction(){
         Block_Wallet = new Wallet();
-        Transaction transaction = new Transaction(Block_Wallet, this.miner.toString(), new Block_Reward().Block_Rew(), Block_Wallet.privateKey);
+        Transaction transaction = new Transaction(Block_Wallet, StringUtil.applySha256(this.miner.toString()), new Block_Reward().Block_Rew(), Block_Wallet.privateKey);
         transaction.verified =1;
         transaction.Signature = StringUtil.applyECDSASig(Block_Wallet.privateKey, transaction.toString());
-        this.transaction_pool.transactions.add(transaction);
+        this.transactions.add(transaction);
 
         return;
     }
-    public void setData(ArrayList<Transaction> data) {
-        this.data = data;
-    }
+
     public void setBlock(String hash, String PrevHash, String Merkleroot, int Difficulty, int Nonce, long timestamp, ArrayList<Transaction> Data, PublicKey miner){
         this.blockHash = hash;
         this.PrevHash = PrevHash;
@@ -102,7 +101,7 @@ public class Block implements Serializable{
         this.diff = Difficulty;
         this.nonce = Nonce;
         this.timeStamp = timestamp;
-        this.data = Data;
+        this.transactions = transactions;
         this.miner = miner;
         return;
     }
@@ -112,9 +111,13 @@ public class Block implements Serializable{
     }
     public ArrayList<Transaction> get_DATA(){
         ArrayList<Transaction> transactions = new ArrayList<>();
-        for(Transaction transaction: this.transaction_pool.transactions){
+        for(Transaction transaction: Blockchain.Mine_Transactions){
             transactions.add(transaction);
         }
+//        for(Transaction transaction: transactions){
+//            transactions.add(transaction);
+//        }
+
         return transactions;
     }
     public int getDiff(){

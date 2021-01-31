@@ -22,7 +22,7 @@ public class Mine {
             new Chain_Verification().givenBlockchain_whenNewBlockAdded_thenSuccess(block1);
             new Chain_Verification().givenBlockchain_whenValidated_thenSuccess();
             System.out.println(block1);
-            System.out.println("Transactions in Block: "+ block1.transaction_pool.transactions.get(0).value);
+
         }catch (Exception ex){
 
         }

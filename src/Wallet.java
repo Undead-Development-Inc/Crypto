@@ -1,15 +1,7 @@
-import java.io.IOException;
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.ECGenParameterSpec;
-import java.security.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.stream.StreamSupport;
 
 public class Wallet implements Serializable {
 
@@ -24,52 +16,55 @@ public class Wallet implements Serializable {
     }
 
 
-    public Boolean Send(String Sendto , float sendvalue, PrivateKey mykey) throws ClassNotFoundException, SQLException, GeneralSecurityException, IOException {
-        Mysql_DB mysql_db = new Mysql_DB();
-        Transaction transaction = new Transaction((Wallet) this.publicKey, StringUtil.applySha256(Sendto), sendvalue, mykey);
-        transaction.Signature = StringUtil.applyECDSASig(mykey, transaction.toString());
-        System.out.println("My Private Key: "+ mykey);
-        System.out.println("Transaction Signature: "+ transaction.Signature);
-        if(transaction.value == 0){
-            System.out.println("Transaction Value must not be 0!!!");
-            return false;
+    public float Balance(Wallet mywallet){
+        ArrayList<Transaction> ISENT = new ArrayList<>();
+        ArrayList<Transaction> ISENT_ALR = new ArrayList<>();
+        ArrayList<Transaction> IREC = new ArrayList<>();
+        ArrayList<Transaction> IREC_ALR = new ArrayList<>();
+
+        float Bal = 0;
+        for(Block block : Blockchain.BlockChain){
+            for(Transaction transaction: block.transactions){
+                if(transaction.Recpt_address.matches(StringUtil.applySha256(mywallet.publicKey.toString()))){
+                    IREC.add(transaction);
+                }
+                if(StringUtil.verifyECDSASig(mywallet.publicKey, transaction.toString(), transaction.Signature)){
+                    ISENT.add(transaction);
+                }
+                System.out.println("Transaction: "+ transaction);
+            }
         }
 
+        for(Transaction transaction: IREC){
+            if(!IREC_ALR.contains(transaction)){
+                Bal +=transaction.value;
+                System.out.println("I RECIVED TRANSACTION: "+ transaction.transhash);
+            }
+        }
+        for(Transaction transaction: ISENT){
+            if(!ISENT_ALR.contains(transaction)){
+                Bal -=transaction.value;
 
-        transaction = null;
-        return false;
+                System.out.println("I SENT TRANSACTION: "+ transaction);
+            }
+        }
+        return Bal;
     }
 
-    public float Balance(String key) {
-        float bal = 0;
-        try {
-            for (Block block : Blockchain.BlockChain) {
-                for (Transaction transaction : block.transaction_pool.transactions) {
-                    UTXO.add(transaction);
-//                System.out.println("UTXO SIZE: " + this.UTXO.size());
-
-                }
+    public Boolean Send_Funds(Wallet wallet, String too, Float value){
+        if(wallet.Balance(wallet) != 0 & wallet.Balance(wallet) <= value){
+            Transaction transaction = new Transaction(wallet, too, value, wallet.privateKey);
+            transaction.Signature = StringUtil.applyECDSASig(wallet.privateKey, transaction.toString());
+            Blockchain.Mine_Transactions.add(transaction);
+            if(Blockchain.Mine_Transactions.contains(transaction)){
+                System.out.println("SEND TRANSACTION: "+ transaction.transhash);
+                return true;
+            }else {
+                return false;
             }
-
-            for (Transaction transaction : UTXO) {
-                String myhash = key;
-                System.out.println("THIS IS THE HASH GENERATED: "+ myhash);
-                System.out.println("THIS IS TRANSACTION RECPT HASH: "+ StringUtil.applySha256(transaction.Recpt_address));
-                if(StringUtil.verifyECDSASig(transaction.from_address, myhash, transaction.identifier.ID_Sig)){
-                    System.out.println("Hello I am new");//IAMRECIVING TRANSACTION
-                }else {
-                    if (StringUtil.verifyECDSASig(this.publicKey, transaction.toString(), transaction.identifier.ID_Sig)) {
-                        System.out.println("I SENT TRANSACTION");//I SENT TRANSACTIONS
-                    }////WORKING ON!!!!
-                }
-
-
-            }
-
-        }catch (Exception ex){
-
         }
-        return bal;
+        System.out.println("CANNOT SEND FUNDS IF BALANCE IS 0 OR LESS THAN OF VALUE");
+        return false;
     }
 
 

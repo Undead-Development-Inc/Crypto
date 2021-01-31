@@ -8,17 +8,7 @@ import java.sql.SQLException;
 
 public class Validation {
 
-    public Boolean CLOUD_CheckBlock(Block block) throws Exception {
 
-        Mysql_DB mysql_db = new Mysql_DB();
-        ErrorMgr errorMgr = new ErrorMgr();
-
-//        if(Blockchain.BlockChain.contains(block) && mysql_db.FIND_Block(block))
-//        if(mysql_db.FIND_Block(block) && !Blockchain.BlockChain.contains(block)) errorMgr.errormgr(10);
-        if(Blockchain.BlockChain.size() == 0) errorMgr.errormgr(11);
-        return true;
-
-    }
 
 
 
