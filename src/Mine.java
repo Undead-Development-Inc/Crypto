@@ -21,6 +21,7 @@ public class Mine {
             Block block1 = new Block(Blockchain.Mine_Transactions, Blockchain.BlockChain.get(Blockchain.BlockChain.size() -1).getBlockHash(), new Date().getTime(), miner);
             new Chain_Verification().givenBlockchain_whenNewBlockAdded_thenSuccess(block1);
             new Chain_Verification().givenBlockchain_whenValidated_thenSuccess();
+
             System.out.println(block1);
 
         }catch (Exception ex){

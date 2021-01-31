@@ -87,7 +87,16 @@ public class Block implements Serializable{
     }
     private void Block_Reward_transaction(){
         Block_Wallet = new Wallet();
+        ArrayList<Transaction> fees = new ArrayList<>();
+        Double fees_total = 0.00;
+        for(Transaction transaction: this.transactions){
+            fees.add(transaction);
+            fees_total += transaction.Fees;
+        }
         Transaction transaction = new Transaction(Block_Wallet, StringUtil.applySha256(this.miner.toString()), new Block_Reward().Block_Rew(), Block_Wallet.privateKey);
+        transaction.inputs.addAll(fees);
+        transaction.value += fees_total;
+        transaction.transaction_outputs.add(transaction);
         transaction.verified =1;
         transaction.Signature = StringUtil.applyECDSASig(Block_Wallet.privateKey, transaction.toString());
         this.transactions.add(transaction);

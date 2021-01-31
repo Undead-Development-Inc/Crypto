@@ -24,13 +24,15 @@ public class Wallet implements Serializable {
         float Bal = 0;
         for(Block block : Blockchain.BlockChain){
             for(Transaction transaction: block.transactions){
-                if(transaction.Recpt_address.matches(StringUtil.applySha256(mywallet.publicKey.toString()))){
-                    IREC.add(transaction);
+                for(Transaction transaction1: transaction.transaction_outputs){
+                    if(transaction1.Recpt_address.matches(StringUtil.applySha256(mywallet.publicKey.toString()))){
+                        IREC.add(transaction);
+                    }
+                    if(StringUtil.verifyECDSASig(mywallet.publicKey, transaction.toString(), transaction.Signature)){
+                        ISENT.add(transaction);
+                    }
+                    System.out.println("Transaction: "+ transaction);
                 }
-                if(StringUtil.verifyECDSASig(mywallet.publicKey, transaction.toString(), transaction.Signature)){
-                    ISENT.add(transaction);
-                }
-                System.out.println("Transaction: "+ transaction);
             }
         }
 
@@ -53,7 +55,9 @@ public class Wallet implements Serializable {
     public Boolean Send_Funds(Wallet wallet, String too, Float value){
         if(wallet.Balance(wallet) != 0 & wallet.Balance(wallet) >= value){
             Transaction transaction = new Transaction(wallet, too, value, wallet.privateKey);
-
+            transaction.Fees = 1;
+            transaction.value -= transaction.Fees;
+            transaction.transaction_outputs.add(transaction);
             transaction.Signature = StringUtil.applyECDSASig(wallet.privateKey, transaction.toString());
             Blockchain.Mine_Transactions.add(transaction);
             if(Blockchain.Mine_Transactions.contains(transaction)){
