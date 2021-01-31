@@ -35,6 +35,7 @@ public class Block implements Serializable{
         this.blockHash = calculateBlockHash();
         this.PrevHash = previousHash;
         this.miner = miner;
+        this.Cl();
 
 
     }
@@ -105,6 +106,24 @@ public class Block implements Serializable{
         this.miner = miner;
         return;
     }
+    public void Cl(){
+        ArrayList<Transaction> transactions_remove = new ArrayList<>();
+        for(Transaction transaction: Blockchain.Mine_Transactions){
+            if(transaction.BlockHash.equals(Blockchain.LastBlockHash())){
+                transactions_remove.add(transaction);
+                System.out.println(Settings.PURPLE + "REMOVING TRANSACTION: "+ transaction);
+            }
+        }
+        for(Transaction transaction: transactions_remove){
+            Blockchain.Mine_Transactions.remove(transaction);
+            }
+        return;
+        }
+
+    public float getBlockReward() {
+        return BlockReward;
+    }
+
 
     public int get_nonce(){
         return this.nonce;
@@ -113,6 +132,7 @@ public class Block implements Serializable{
         ArrayList<Transaction> transactions = new ArrayList<>();
         for(Transaction transaction: Blockchain.Mine_Transactions){
             transactions.add(transaction);
+
         }
 //        for(Transaction transaction: transactions){
 //            transactions.add(transaction);

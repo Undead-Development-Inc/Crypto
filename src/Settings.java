@@ -3,7 +3,7 @@ public class Settings {
     public static int Max_Block_Transactions = 10;
     public static String G_Block_Hash = "08e8cf9e9e4da0b8cef55b50dae66fd210a5e2009afe0f36e66dcdc6262d4e08";
     public static int INET_Trans_Port = 65534;
-    public static int Net_port = 65535;
+    public static int NetPUSH_port = 65535;
     public static int API_NET_PORT = 65533;
     public static int DB_STORAGE_NET = 3332;
 

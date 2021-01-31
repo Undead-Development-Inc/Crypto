@@ -52,7 +52,7 @@ public class Wallet implements Serializable {
     }
 
     public Boolean Send_Funds(Wallet wallet, String too, Float value){
-        if(wallet.Balance(wallet) != 0 & wallet.Balance(wallet) <= value){
+        if(wallet.Balance(wallet) != 0 & wallet.Balance(wallet) >= value){
             Transaction transaction = new Transaction(wallet, too, value, wallet.privateKey);
             transaction.Signature = StringUtil.applyECDSASig(wallet.privateKey, transaction.toString());
             Blockchain.Mine_Transactions.add(transaction);

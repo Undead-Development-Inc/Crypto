@@ -5,13 +5,8 @@ public class Difficulty {
     public int difficulty(){
         new Difficulty().Blockid_current();
 
-        if(Blockchain.BlockChain.get(Blockid_Curr).diff <= 10){
-//            return Blockchain.BlockChain.get(Blockid_Curr).diff =+ 1;
-            return 2;
-
-        }else {
-            return Blockchain.BlockChain.get(Blockid_Curr).diff =- 1;
-        }
+        System.out.println(Settings.PURPLE + "NEW DIFFICULTY: "+ Blockid_Curr * 2);
+        return 2;
     }
 
     public void Blockid_current(){

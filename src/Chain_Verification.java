@@ -29,7 +29,9 @@ public class Chain_Verification {
                     .substring(0, Diff)
                     .equals(prefixString));
 
+
             Blockchain.BlockChain.add(newBlock);
+
             System.out.println("BLOCK: " + Blockchain.BlockChain.lastIndexOf(block) + " Previous Hash: " + block.getPreviousHash());
 
             return;
