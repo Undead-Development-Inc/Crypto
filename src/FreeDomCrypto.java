@@ -6,6 +6,12 @@ public class FreeDomCrypto {
 
     public static void main(String[] args) throws Exception {
         new G_BLOCK().SETUP_GBLOCK();
-        new menu().Menu();
+        Thread thread = new Thread(Net::APINETWORK);
+        Thread thread1 = new Thread(Net::NETWORKPUSH);
+        thread.start();
+        thread1.start();
+
+//        new menu().Menu();
+
     }
 }

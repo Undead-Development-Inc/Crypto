@@ -1,6 +1,7 @@
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
+import java.security.Signature;
 import java.util.ArrayList;
 import java.io.Serializable;
 import java.util.Date;
@@ -14,6 +15,7 @@ public class Block implements Serializable{
     //Timestamp ts = new Timestamp(time);
     ///////////////////////////
     /////THIS IS BLOCK!!!
+    public ArrayList<byte[]> Verified_By = new ArrayList<>(); //SIGNATURE OF SIGNER's
     private String PrevHash;
     private String blockHash = "";
     private int nonce;
@@ -78,6 +80,23 @@ public class Block implements Serializable{
         System.out.println(Settings.GREEN_BOLD + Settings.BLACK_BACKGROUND +"FOUND: "+ this.blockHash);
         this.Block_Reward_transaction();
         return this.blockHash;
+    }
+    public void clear_used_transactions(String BlockHash){
+        ArrayList<Transaction> Remove_TR_List = new ArrayList<>();
+        for(Block block: Blockchain.BlockChain){
+            for(Transaction transaction: block.transactions){
+                for(Transaction transaction1: Blockchain.Mine_Transactions){
+                    if(transaction == transaction1){
+                        Remove_TR_List.add(transaction);
+                    }
+                }
+            }
+        }
+        for(Transaction transaction: Blockchain.Mine_Transactions){
+            System.out.println("ALREADY INCLUDED TRANSACTIONS: "+ transaction);
+        }
+        Blockchain.Mine_Transactions.removeAll(Remove_TR_List);
+        return;
     }
     public String getPreviousHash() {
         return this.PrevHash;

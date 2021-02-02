@@ -24,6 +24,7 @@ public class Chain_Verification {
                 transaction.BlockHash = block.getBlockHash();
             }
             newBlock.mineBlock(Diff);
+            newBlock.clear_used_transactions(newBlock.getBlockHash());
             System.out.println("Hashing");
             assertTrue(newBlock.getBlockHash()
                     .substring(0, Diff)
