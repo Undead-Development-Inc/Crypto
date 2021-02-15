@@ -52,7 +52,7 @@ public class Net {
                     serverSocket.close();
                 }
 
-                if (req.matches("PUT_Transaction")) { //API CLIENT WANTS TO SEND TRANSACTION
+                if (req.matches("SEND_Transaction")) { //API CLIENT WANTS TO SEND TRANSACTION
                     Transaction transaction = (Transaction) objectInputStream.readObject();
                     Blockchain.Mine_Transactions.add(transaction);
                     if(Blockchain.Mine_Transactions.contains(transaction)){
@@ -66,28 +66,7 @@ public class Net {
                     socket.close();
                     serverSocket.close();
                 }
-                if (req.matches("Get_Transactions")) {
-                    ///THIS GIVES TRANSACTIONS TO INCLUDE IN MINED BLOCK
-                    objectOutputStream.writeObject(Blockchain.Mine_Transactions);
 
-                    objectInputStream.close();
-                    objectOutputStream.close();
-                    socket.close();
-                    serverSocket.close();
-                }
-                if (req.matches("PUSH_MBLOCK")) {
-
-                    ArrayList<Block> recived_newBlocks = new ArrayList<>();
-                    recived_newBlocks = (ArrayList<Block>) objectInputStream.readObject();
-                    objectInputStream.reset();
-
-                    System.out.println("RECIVED:");
-
-                    objectInputStream.close();
-                    objectOutputStream.close();
-                    socket.close();
-                    serverSocket.close();
-                }
 
                 objectInputStream.close();
                 objectOutputStream.close();
@@ -96,7 +75,7 @@ public class Net {
             }
 
         } catch (Exception ex) {
-            System.out.println(ex);
+            System.out.println(Settings.RED + ex);
         }
 
     }
@@ -110,6 +89,7 @@ public class Net {
                 Socket socket1 = serverSocket1.accept();
                 ObjectOutputStream objectOutputStream1 = new ObjectOutputStream(socket1.getOutputStream());
 
+                System.out.println(Settings.BLUE + "NEW BLOCKS TO BE MINED: "+ Blockchain.MBlocks_NV);
                 objectOutputStream1.writeObject(Blockchain.MBlocks_NV);
                 objectOutputStream1.writeObject(Blockchain.Mine_Transactions);
 

@@ -29,4 +29,31 @@ public class Blockchain implements Serializable {
         }
     }
 
+    public static void Add_To_Chain(){
+
+        ArrayList<Block> temp = new ArrayList<>();
+        ArrayList<Block> longest_temp = new ArrayList<>();
+        ArrayList<Block> official_block = new ArrayList<>();
+
+        for(Block block: BlockChain){
+
+
+        }
+
+        for(Block block: MBlocks_NV){
+            Block block1 = block;
+            System.out.println("BLOCK: "+ block1.getBlockHash());
+            for(int x = 0; x <= MBlocks_NV.size(); x++){
+                Block block2 = MBlocks_NV.get(x);
+                System.out.println("BLOCK 2: "+ block2.getBlockHash());
+
+            }
+        }
+
+        return;
+
+
+    }
+
+
 }
