@@ -11,14 +11,14 @@ import java.util.concurrent.ExecutionException;
 
 public class Net {
 
-    public static void main(String[] args){
-
-    }
+    public static Package_Blocks package_blocks;
 
     public static void APINETWORK() {
         System.out.println("TRYING");
         try {
             while (true) {
+                package_blocks = null;
+                Pack_ME();
                 System.out.println("WAITING FOR CONNECTION");
                 ServerSocket serverSocket = new ServerSocket(Settings.INET_Trans_Port);
                 Socket socket = serverSocket.accept();
@@ -27,45 +27,31 @@ public class Net {
                 ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 
-
-
                 String req = (String) objectInputStream.readObject();
 
-                if (req.matches("Get_Balance")) { //RETURNS BALANCE OF WALLET
-                    Wallet wallet = (Wallet) objectInputStream.readObject();
-                    objectOutputStream.writeObject(wallet.Balance(wallet));
-
+                if(req.matches("Node_Update")){
+                    objectOutputStream.writeObject(package_blocks);
+                    System.out.println("SEND UPDATE TO NODE: "+ socket.getInetAddress());
                     objectInputStream.close();
                     objectOutputStream.close();
-                    socket.close();
-                    serverSocket.close();
                 }
 
-                if (req.matches("Get_BCUpdate")) { //GIVES CLIENTS FULL BLOCKCHAIN UPDATE
-                    System.out.println("Size: "+ Blockchain.BlockChain.size());
-                    objectOutputStream.writeObject(Blockchain.BlockChain);
-
-
+                if(req.matches("PUSH_MBLOCK")){
+                    ArrayList<Block> New_Blocks = (ArrayList<Block>) objectInputStream.readObject();
                     objectInputStream.close();
                     objectOutputStream.close();
-                    socket.close();
-                    serverSocket.close();
-                }
-
-                if (req.matches("SEND_Transaction")) { //API CLIENT WANTS TO SEND TRANSACTION
-                    Transaction transaction = (Transaction) objectInputStream.readObject();
-                    Blockchain.Mine_Transactions.add(transaction);
-                    if(Blockchain.Mine_Transactions.contains(transaction)){
-                        objectOutputStream.writeObject("SUCCESS");
-                    }else {
-                        objectOutputStream.writeObject("FAILED");
+                    for(Block block: New_Blocks){
+                        if(!Blockchain.MBlocks_NV.contains(block)){
+                            System.out.println("GOT NEW BLOCK: "+ block);
+                            Blockchain.MBlocks_NV.add(block);
+                            //Blockchain.BlockChain.add(block);
+                        }
                     }
-
-                    objectInputStream.close();
-                    objectOutputStream.close();
-                    socket.close();
-                    serverSocket.close();
                 }
+
+
+
+
 
 
                 objectInputStream.close();
@@ -80,25 +66,14 @@ public class Net {
 
     }
 
-    public static void NETWORKPUSH() {
-        System.out.println("TRYING 2");
-        try {
-            while(true) {
-                ArrayList<Block> Mined_Blocks_Verified = new ArrayList<>();
-                ServerSocket serverSocket1 = new ServerSocket(Settings.NetPUSH_port);
-                Socket socket1 = serverSocket1.accept();
-                ObjectOutputStream objectOutputStream1 = new ObjectOutputStream(socket1.getOutputStream());
-
-                System.out.println(Settings.BLUE + "NEW BLOCKS TO BE MINED: "+ Blockchain.MBlocks_NV);
-                objectOutputStream1.writeObject(Blockchain.MBlocks_NV);
-                objectOutputStream1.writeObject(Blockchain.Mine_Transactions);
-
-                objectOutputStream1.close();
-                socket1.close();
-                serverSocket1.close();
-            }
-        } catch (Exception ex) {
-
-        }
+    public static void Pack_ME(){
+        Package_Blocks package_blocks1 = new Package_Blocks();
+        package_blocks1.blockchain = Blockchain.BlockChain;
+        package_blocks1.Newly_MinedBlocks = Blockchain.MBlocks_NV;
+        package_blocks1.Newly_CreatedTransactions = Blockchain.Mine_Transactions;
+        package_blocks = package_blocks1;
+        return;
     }
+
+
 }

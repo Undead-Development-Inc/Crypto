@@ -1,6 +1,7 @@
 import java.io.Serializable;
 import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class Blockchain implements Serializable {
 
@@ -9,12 +10,10 @@ public class Blockchain implements Serializable {
 
     ////THIS IS TRANSACTION-STORAGE-ARRAY!!!
     public static ArrayList<Transaction> DB_STORAGE_TRANSACTIONS =  new ArrayList<>();
-    /////THIS IS TEMP CHAIN
-    public static ArrayList<Block> V_BlockChain = new ArrayList<>();
     ////////////This is The array of transactions I got to put in new Block(Temporary Storage)
     public static ArrayList<Transaction> Mine_Transactions = new ArrayList<>();
 
-    public static ArrayList<Block> temp_blocks = new ArrayList<>();//for providing clients
+    public static ArrayList<Block> temp_blocks = new ArrayList<>();//for checking blocks
 
     public static ArrayList<Block> MBlocks_NV = new ArrayList<>(); //THIS IS BLOCKS THAT WERE MINED BUT NOT YET VERIFIED!!
 
@@ -30,25 +29,65 @@ public class Blockchain implements Serializable {
     }
 
     public static void Add_To_Chain(){
-
+        ArrayList<Integer> localid = new ArrayList<Integer>();
+        ArrayList<Block> pairs = new ArrayList<>();
         ArrayList<Block> temp = new ArrayList<>();
-        ArrayList<Block> longest_temp = new ArrayList<>();
-        ArrayList<Block> official_block = new ArrayList<>();
-
-        for(Block block: BlockChain){
 
 
+
+        for (Block block: MBlocks_NV){
+            try{
+                temp_blocks.add(MBlocks_NV.get(MBlocks_NV.lastIndexOf(block) + 1));
+                System.out.println("ADDING INTO TEMP BLOCKS: "+ block);
+            }catch (IndexOutOfBoundsException in){
+                System.out.println("OUT OF BOUNDS!!");
+            }
         }
 
         for(Block block: MBlocks_NV){
-            Block block1 = block;
-            System.out.println("BLOCK: "+ block1.getBlockHash());
-            for(int x = 0; x <= MBlocks_NV.size(); x++){
-                Block block2 = MBlocks_NV.get(x);
-                System.out.println("BLOCK 2: "+ block2.getBlockHash());
-
+            if(!temp_blocks.contains(block)){
+                if(temp_blocks.contains(block.getBlockHash())){
+                    if(temp_blocks.contains(block.getBlockHash())){
+                        for(int x = 0; x <= temp_blocks.size() -1; x++){
+                            if(temp_blocks.get(x).getPreviousHash().matches(block.getBlockHash())){
+                                pairs.add(temp_blocks.get(x));
+                                System.out.println("FOUND PAIR!!!");
+                                System.out.println("ADDING PAIR!!!");
+                            }
+                        }
+                    }
+                }
+                if(pairs.contains(block.getBlockHash())){
+                    if(!temp_blocks.contains(block)){
+                        temp_blocks.add(block);
+                        System.out.println("ADDED: "+ block + " TO PAIR!!");
+                    }
+                }
+                if(!(pairs.size() >= 2)){
+                    for(Block block1: pairs){
+                        for(int x = 0; x <= pairs.size(); x++){
+                            x++;
+                            if(block1.transactions.size() >= pairs.get(x).transactions.size()){
+                                for(Block block6: MBlocks_NV){
+                                    if(block6.getBlockHash().matches(block1.getPreviousHash())){
+                                        temp.add(block6);
+                                    }
+                                }
+                                temp.add(block1);
+                            }
+                        }
+                    }
+                }
             }
         }
+
+
+
+
+        Blockchain.BlockChain.addAll(temp);
+        temp.clear();
+
+
 
         return;
 
