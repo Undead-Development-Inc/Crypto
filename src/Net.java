@@ -37,16 +37,50 @@ public class Net {
                 }
 
                 if(req.matches("PUSH_MBLOCK")){
-                    ArrayList<Block> New_Blocks = (ArrayList<Block>) objectInputStream.readObject();
+                    Block New_Blocks = (Block) objectInputStream.readObject();
+                    System.out.println("GOT NEW BLOCK: "+ New_Blocks);
+                    Blockchain.MBlocks_NV.add(New_Blocks);
+                    System.out.println("BLOCK-SIZE: "+ Blockchain.MBlocks_NV.size());
+                    if(!Blockchain.MBlocks_NV.contains(New_Blocks)){
+                        throw new Exception("BLOCK NOT FOUND!!!");
+                    }
+                    Blockchain.Add_To_Chain();//
+//                    Blockchain.BlockChain.add(New_Blocks);
                     objectInputStream.close();
                     objectOutputStream.close();
-                    for(Block block: New_Blocks){
-                        if(!Blockchain.MBlocks_NV.contains(block)){
-                            System.out.println("GOT NEW BLOCK: "+ block);
-                            Blockchain.MBlocks_NV.add(block);
-                            //Blockchain.BlockChain.add(block);
+                }
+
+                if(req.matches("PUSH_N_TRANSACTIONS")){
+                    ArrayList<Transaction> New_Transactions = (ArrayList<Transaction>) objectInputStream.readObject();
+                    for(Transaction transaction: New_Transactions){
+                        if(!Blockchain.Mine_Transactions.contains(transaction)){
+                            System.out.println("ADDED NEW TRANSACTION: "+ transaction);
+                            Blockchain.Mine_Transactions.add(transaction);
                         }
                     }
+                }
+
+                if(req.matches("Wallet")){
+                    if(Blockchain.Net_Wallets.size() == 0){
+                        Wallet newwallet = new Wallet();
+                        newwallet = new Wallet();
+                        Blockchain.Net_Wallets.add(newwallet);
+                        objectOutputStream.writeObject(newwallet);
+                        System.out.println("MADE AND SENT NEW WALLET");
+                    }else {
+                        objectOutputStream.writeObject(Blockchain.Net_Wallets.get(0));
+                        System.out.println("SEND WALLET");
+                    }
+                }
+
+                if(req.matches("Get_Balance")){
+                    Wallet wallet = (Wallet) objectInputStream.readObject();
+                    objectOutputStream.writeObject(wallet.Balance(wallet));
+                    System.out.println("RETURNED BALLET BALANCE");
+                }
+
+                if(req.matches("Get_Difficulty")){
+                    objectOutputStream.writeObject(new Difficulty().difficulty());
                 }
 
 
