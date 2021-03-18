@@ -21,6 +21,8 @@ public class Blockchain implements Serializable {
 
     public static ArrayList<Wallet> Net_Wallets = new ArrayList<>();
 
+    public static ArrayList<String> Net_IPs_Recent = new ArrayList<>();
+
 
 
 

@@ -1,3 +1,5 @@
+import jdk.jshell.spi.ExecutionControlProvider;
+
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
@@ -24,6 +26,7 @@ public class Net {
                 Socket socket = serverSocket.accept();
                 System.out.println("CONNECTED!!!");
                 socket.setSoTimeout(10000);
+                Net_IP_UPDT(socket.getInetAddress().toString());
                 ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 
@@ -108,6 +111,32 @@ public class Net {
         package_blocks = package_blocks1;
         return;
     }
+    public static void Net_Status(){
+        try {
+            ServerSocket serverSocket = new ServerSocket(65530);
+            Socket socket = serverSocket.accept();
+            System.out.println("GOT CONNECTION FROM: "+ socket.getInetAddress());
+
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            Packager Status_Pack = new Packager("Status");
+            objectOutputStream.writeObject(Status_Pack);
+            objectOutputStream.close();
+            socket.close();
+            serverSocket.close();
+        }catch (Exception ex){
+            System.out.println("System NET_STATUS EXEP: "+ ex);
+        }
+    }
+
+    public static void Net_IP_UPDT(String IP){
+        if(!Blockchain.Net_IPs_Recent.contains(IP)){
+            Blockchain.Net_IPs_Recent.add(IP);
+            System.out.println("ADDED IP: "+ IP);
+        }
+        return;
+    }
+
+
 
 
 }

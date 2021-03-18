@@ -1,13 +1,19 @@
+import javax.crypto.*;
+import java.io.FileOutputStream;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.ECGenParameterSpec;
 import java.util.ArrayList;
+import javax.crypto.SecretKey;
 
 public class Wallet implements Serializable {
 
 
     public PrivateKey privateKey;
     public PublicKey publicKey;
+    public SecretKey secretKey;
+    public Cipher cipher;
 
 
     public Wallet(){
@@ -118,6 +124,30 @@ public class Wallet implements Serializable {
 
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void FileENCDecrypt(SecretKey secretKey, String trans){
+        try {
+            this.secretKey = secretKey;
+            this.cipher = Cipher.getInstance(trans);
+        }catch (Exception ex){
+
+        }
+    }
+    void Encrypt_Write(String content){
+        try {
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            byte[] iv = cipher.getIV();
+
+            FileOutputStream fileOutputStream = new FileOutputStream("wallet.un");
+            CipherOutputStream cipherOutputStream = new CipherOutputStream(fileOutputStream, cipher);
+            fileOutputStream.write(iv);
+            cipherOutputStream.write(content.getBytes());
+            return;
+
+        }catch (Exception ex){
+            System.out.println(ex);
         }
     }
 

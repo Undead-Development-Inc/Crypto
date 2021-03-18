@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.testng.annotations.AfterClass;
+
 
 
 public class Chain_Verification {
@@ -41,7 +40,7 @@ public class Chain_Verification {
         }
     }
 
-    @Test
+
     public void givenBlockchain_whenValidated_thenSuccess() {
         try {
             boolean flag = true;
@@ -51,7 +50,7 @@ public class Chain_Verification {
                 flag= Blockchain.BlockChain.get(i).Calculate_MerkleRoot().matches(Blockchain.BlockChain.get(i).Merkleroot);
 
                 if (!flag)
-                    System.out.println("Removing Block: "+ Blockchain.BlockChain.get(i));
+                    System.out.println("Removing Block Due to FLAG: "+ Blockchain.BlockChain.get(i));
                     Blockchain.BlockChain.remove(i);
                     break;
             }
