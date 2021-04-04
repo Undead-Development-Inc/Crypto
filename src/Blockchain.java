@@ -10,10 +10,15 @@ public class Blockchain implements Serializable {
 
     public static ArrayList<Block> ORPH_BLOCKS = new ArrayList<>();
 
+    ///THIS IS TEST BLOCKCHAIN!!!/////
+    public static ArrayList<Block> TEST_BlockCain = new ArrayList<>();
+
     ////THIS IS TRANSACTION-STORAGE-ARRAY!!!
     public static ArrayList<Transaction> DB_STORAGE_TRANSACTIONS =  new ArrayList<>();
     ////////////This is The array of transactions I got to put in new Block(Temporary Storage)
     public static ArrayList<Transaction> Mine_Transactions = new ArrayList<>();
+    ////////////(TEST FUNCTION) This is The array of transactions I got to put in new Block(Temporary Storage)
+    public static ArrayList<Transaction> Test_Mine_Transactions = new ArrayList<>();
 
     public static ArrayList<Block> temp_blocks = new ArrayList<>();//for checking blocks
 

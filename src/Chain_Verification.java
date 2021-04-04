@@ -61,4 +61,53 @@ public class Chain_Verification {
     }
 
 
+
+
+    /////TEST FUNCTIONS!!!!/////
+    public void TEST_givenBlockchain_whenNewBlockAdded_thenSuccess(Block block) throws  ClassNotFoundException, IOException {
+        try {
+
+            Block newBlock = new Block(block.get_DATA(), block
+                    .getBlockHash(), new Date().getTime(), block.miner);
+            for(Transaction transaction : block.get_DATA()){
+                transaction.BlockHash = block.getBlockHash();
+            }
+            newBlock.mineBlock(Diff);
+            newBlock.clear_used_transactions(newBlock.getBlockHash());
+            System.out.println("Hashing");
+            assertTrue(newBlock.getBlockHash()
+                    .substring(0, Diff)
+                    .equals(prefixString));
+
+
+            Blockchain.TEST_BlockCain.add(newBlock);
+            System.out.print(Settings.RED_BOLD + "TEST FUNCTION" );
+            System.out.println("BLOCK: " + Blockchain.TEST_BlockCain.lastIndexOf(block) + " Previous Hash: " + block.getPreviousHash());
+
+            return;
+        }catch (Exception ex){
+
+        }
+    }
+    public void TEST_givenBlockchain_whenValidated_thenSuccess() {
+        try {
+            boolean flag = true;
+            for (int i = 0; i < Blockchain.TEST_BlockCain.size(); i++) {
+                flag = Blockchain.TEST_BlockCain.get(i).getBlockHash().matches(Blockchain.TEST_BlockCain.get(i).calculateBlockHash());
+                flag = Blockchain.TEST_BlockCain.get(i).getPreviousHash().matches(Blockchain.TEST_BlockCain.get(i -1).calculateBlockHash());
+                flag= Blockchain.TEST_BlockCain.get(i).Calculate_MerkleRoot().matches(Blockchain.TEST_BlockCain.get(i).Merkleroot);
+
+
+                if (!flag)
+                    System.out.println("TEST FUNCTION"+"Removing Block Due to FLAG: "+ Blockchain.TEST_BlockCain.get(i));
+                Blockchain.TEST_BlockCain.remove(i);
+                break;
+            }
+            assertTrue(flag);
+        }catch (Exception ex){
+
+        }
+    }
+
+
 }
