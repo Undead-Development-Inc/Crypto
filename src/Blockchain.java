@@ -28,6 +28,7 @@ public class Blockchain implements Serializable {
 
     public static ArrayList<String> Net_IPs_Recent = new ArrayList<>();
 
+    public static ArrayList<Transaction> INVALID_TRANSACTIONS = new ArrayList<>(); //INVALID TRANSACTIONS IN POTENTIAL BLOCKCHAIN BLOCK
 
 
 
@@ -47,6 +48,7 @@ public class Blockchain implements Serializable {
         ArrayList<Block> blocks_temp = new ArrayList<>();
         ArrayList<Block> temp = new ArrayList<>();
 
+
         System.out.println("WORKING@@@");
 
             int Highest_Transactions = 0;//The current highest ammount of transactions ---AVERAGE
@@ -54,7 +56,10 @@ public class Blockchain implements Serializable {
 
 
 
+
             for(Block block: Blockchain.MBlocks_NV){
+                verify_transactions(block);
+
                 if(!(block.transactions.size() >= Highest_Transactions)){
                     if(Highest_Transactions == 0){
                         Highest_Transactions += block.transactions.size();
@@ -90,9 +95,11 @@ public class Blockchain implements Serializable {
                 }
             }
             if(BL_HG_VAL.size() == 1){
-                Blockchain.BlockChain.addAll(BL_HG_VAL);
-                ORPH_BLOCKS.addAll(MBlocks_NV);
-                MBlocks_NV.clear();
+                if(!BL_HG_VAL.contains(INVALID_TRANSACTIONS)){
+                    Blockchain.BlockChain.addAll(BL_HG_VAL);
+                    ORPH_BLOCKS.addAll(MBlocks_NV);
+                    MBlocks_NV.clear();
+                }
             }
 
             Highest_Transactions =0;
@@ -103,10 +110,65 @@ public class Blockchain implements Serializable {
 
         }
 
+        public static void verify_transactions(Block block){
+            for(Transaction transaction: block.transactions){
+                if(vout(transaction)){
+                    System.out.println("VALID TRANSACTION;"+ transaction);
+
+                }else {
+                    System.out.println("NEW INVALID TRANSACTION: "+ transaction);
+                    INVALID_TRANSACTIONS.add(transaction);
+                }
+            }
+            return;
+        }
+
+        public static boolean vout(Transaction transaction){
+        ArrayList<Transaction> recived_transactions = new ArrayList<>();
+        ArrayList<Transaction> sent_transactions = new ArrayList<>();
+        ArrayList<Transaction> invalid_transactions = new ArrayList<>(); //FOR INVALID INPUTS
+
+            for(Block block: Blockchain.BlockChain){
+                if(!block.transactions.contains(transaction)){
+                    if(block.transactions.contains(transaction.inputs)){
+                        for(Transaction input: transaction.inputs){
+                            if(StringUtil.applySha256(transaction.from_address.toString()).matches(StringUtil.applySha256(input.from_address.toString()))){
+                                System.out.println("INVALID INPUT: "+ input + "in transaction: "+ transaction);
+                                System.out.println("SAME INPUT: "+ input + "in transaction: "+ transaction);
+                                invalid_transactions.add(transaction);
+                            }
+                            if(StringUtil.applySha256(transaction.from_address.toString()).matches(input.Recpt_address)){
+                                if(input.value < transaction.value & transaction.inputs.size() <= 1){
+                                    System.out.println("INVALID INPUT: "+ input + "in transaction: "+ transaction);
+                                    invalid_transactions.add(transaction);
+                                }
+                                if(input == null){
+                                    System.out.println("INVALID INPUT: "+ input + "in transaction: "+ transaction);
+                                    invalid_transactions.add(transaction);
+                                }
+                            }
+                            if(!StringUtil.verifyECDSASig(transaction.from_address, transaction.toString(), transaction.Signature)){
+                                System.out.println("INVALID SIGNATURE in transaction: "+ transaction);
+                                invalid_transactions.add(transaction);
+                            }
+                            if(!StringUtil.verifyECDSASig(input.from_address, input.toString(), input.Signature)){
+                                System.out.println("INVALID SIGNATURE in INPUT: "+ input);
+                                invalid_transactions.add(transaction);
+                            }
+
+                        }
+                    }
+                }else {
+                    System.out.println("INVALID TRANSACTION --DUPLICATED: "+ transaction);
+                    invalid_transactions.add(transaction);
+                }
+            }
+            if(invalid_transactions.contains(transaction)){
+                return false;
+            }else {
+                return true;
+            }
+        }
+
 
 }
-
-
-
-
-
