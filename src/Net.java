@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 public class Net {
 
     public static Package_Blocks package_blocks;
+    public static ArrayList<String> IPDNS_SYNC_NODES = new ArrayList<>();
 
     public static void APINETWORK() {
         System.out.println("TRYING");
@@ -26,18 +27,13 @@ public class Net {
                 Socket socket = serverSocket.accept();
                 System.out.println("CONNECTED!!!");
                 socket.setSoTimeout(10000);
-                Net_IP_UPDT(socket.getInetAddress().toString());
+
                 ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 
                 String req = (String) objectInputStream.readObject();
 
-                if(req.matches("Node_Update")){
-                    objectOutputStream.writeObject(package_blocks);
-                    System.out.println("SEND UPDATE TO NODE: "+ socket.getInetAddress());
-                    objectInputStream.close();
-                    objectOutputStream.close();
-                }
+
 
                 if(req.matches("PUSH_MBLOCK")){
                     Block New_Blocks = (Block) objectInputStream.readObject();
@@ -111,29 +107,19 @@ public class Net {
         package_blocks = package_blocks1;
         return;
     }
-    public static void Net_Status(){
-        try {
-            ServerSocket serverSocket = new ServerSocket(65530);
-            Socket socket = serverSocket.accept();
-            System.out.println("GOT CONNECTION FROM: "+ socket.getInetAddress());
 
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            Packager Status_Pack = new Packager("Status");
-            objectOutputStream.writeObject(Status_Pack);
-            objectOutputStream.close();
-            socket.close();
-            serverSocket.close();
+    public static void Network_Sync(){
+        Pack_ME();
+        try{
+            for(String ip : IPDNS_SYNC_NODES){
+                Socket socket = new Socket(ip, 9000);
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());//CREATES OUTPUT STREAM
+                System.out.println("SEND UPDATE TO DNS NODE: "+ socket.getInetAddress());
+                objectOutputStream.writeObject(package_blocks);
+            }
         }catch (Exception ex){
-            System.out.println("System NET_STATUS EXEP: "+ ex);
-        }
-    }
 
-    public static void Net_IP_UPDT(String IP){
-        if(!Blockchain.Net_IPs_Recent.contains(IP)){
-            Blockchain.Net_IPs_Recent.add(IP);
-            System.out.println("ADDED IP: "+ IP);
         }
-        return;
     }
 
 
