@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Crypto-master:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3cbdedce-7abc-440a-8142-568f87862cbc" name="Default Changelist" comment="FIXED ISSUES">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Crypto_master_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/JARS_EXTERNAL.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/lib.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/Crypto-master.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/Block.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/Block_Reward.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/Blockchain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/Chain_Verification.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/DATA.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/DATA_STOR.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/Difficulty.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/ErrorMgr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/FreeDomCrypto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/Functions_MENU.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/G_BLOCK.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/LoadBalancer_Control.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/Mine.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/Net.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/PACKAGE_NAME/DATABlock.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/PACKAGE_NAME/Message.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/Package_Blocks.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/Packager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/Settings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/StringUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/TEST_FUNCTIONS.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/TEST_SEQ.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/Transaction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/Validation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/Wallet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/out/production/FreeDomCrypto/menu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto-master/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/Crypto-master/src/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/Block.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/Block_Reward.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/Blockchain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/Chain_Verification.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/DATA.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/DATA_STOR.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/Difficulty.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/ErrorMgr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/FreeDomCrypto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/Functions_MENU.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/G_BLOCK.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/LoadBalancer_Control.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/Mine.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/Net.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/PACKAGE_NAME/DATABlock.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/PACKAGE_NAME/Message.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/Package_Blocks.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/Packager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/Settings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/StringUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/TEST_FUNCTIONS.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/TEST_SEQ.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/Transaction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/Validation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/Wallet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Crypto-master/menu.class" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedIndex" value="1" />
+  </component>
+  <component name="ProjectId" id="1vdqy0SCK6LSSfwBZD4snmZZGDl" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Crypto-master/out" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RunManager">
+    <configuration name="FreeDomCrypto" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="FreeDomCrypto" />
+      <module name="Crypto-master" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.FreeDomCrypto" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3cbdedce-7abc-440a-8142-568f87862cbc" name="Default Changelist" comment="" />
+      <created>1626902563986</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1626902563986</updated>
+    </task>
+    <task id="LOCAL-00001" summary="FIXED ISSUES">
+      <created>1627153135630</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1627153135630</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="FIXED ISSUES" />
+    <option name="LAST_COMMIT_MESSAGE" value="FIXED ISSUES" />
+  </component>
+</project>
