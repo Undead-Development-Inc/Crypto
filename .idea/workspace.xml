@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Crypto:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1cc29459-bcb3-468f-87cb-dc6b1a44e161" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/Crypto_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Crypto.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/External/aopalliance-1.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/External/apiguardian-api-1.0.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/External/bcprov-jdk15on-166 (1).jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/External/commons-logging-1.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/External/gson-2.8.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/External/guava-19.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/External/guice-4.1.0-no_aop.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/External/javax.inject-1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/External/jcommander-1.72.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/External/junit-jupiter-5.4.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/External/junit-jupiter-api-5.4.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/External/junit-jupiter-engine-5.4.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/External/junit-jupiter-params-5.4.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/External/junit-platform-commons-1.4.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/External/junit-platform-engine-1.4.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/External/mysql-connector-java-8.0.21.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/External/opentest4j-1.1.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/External/protobuf-java-3.11.4.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/External/snakeyaml-1.21.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/External/testng-7.1.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Block.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Block_Reward.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Blockchain.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Chain_Verification.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/DATA.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/DATABlock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/DATA_STOR.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Difficulty.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ErrorMgr.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/FreeDomCrypto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Functions_MENU.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/G_BLOCK.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/LoadBalancer_Control.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Message.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Mine.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Net.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Package_Blocks.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Packager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Settings.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/StringUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/TEST_FUNCTIONS.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/TEST_SEQ.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Transaction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Validation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Wallet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/menu.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1vmT2npYJLwJG2h9ihJUUzWp0Mh" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/External" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RunManager">
+    <configuration name="FreeDomCrypto" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="FreeDomCrypto" />
+      <module name="Crypto" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.FreeDomCrypto" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1cc29459-bcb3-468f-87cb-dc6b1a44e161" name="Default Changelist" comment="" />
+      <created>1627166061858</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1627166061858</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+</project>
